@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FireBaseServiceService } from '../services/fire-base-service.service';
+import { News } from 'src/types/types';
 import {
   IonHeader,
   IonToolbar,
@@ -42,10 +43,12 @@ import { ExploreContainerComponent } from '../explore-container/explore-containe
     IonButton,
   ],
 })
-export class Tab1Page {
+export class Tab1Page implements OnInit {
+  allCollections: News[] = [];
+
   constructor(private fireBaseService: FireBaseServiceService) {}
 
-  logCollections(): void {
-    this.fireBaseService.getAllCollections();
+  async ngOnInit() {
+    this.allCollections = await this.fireBaseService.fetchCollections();
   }
 }
