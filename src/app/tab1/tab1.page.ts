@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FireBaseServiceService } from '../services/fire-base-service.service';
 import { News } from 'src/types/types';
@@ -20,6 +20,7 @@ import {
   IonButton,
 } from '@ionic/angular/standalone';
 import { ExploreContainerComponent } from '../explore-container/explore-container.component';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-tab1',
@@ -31,7 +32,6 @@ import { ExploreContainerComponent } from '../explore-container/explore-containe
     IonToolbar,
     IonTitle,
     IonContent,
-    ExploreContainerComponent,
     IonCard,
     IonCardContent,
     IonCardHeader,
@@ -43,12 +43,27 @@ import { ExploreContainerComponent } from '../explore-container/explore-containe
     IonButton,
   ],
 })
-export class Tab1Page implements OnInit {
+export class Tab1Page implements OnInit, OnDestroy {
   allCollections: News[] = [];
+  private subscription: Subscription;
 
-  constructor(private fireBaseService: FireBaseServiceService) {}
+  constructor(private fireBaseService: FireBaseServiceService) {
+    this.subscription = this.fireBaseService.news$.subscribe((news) => {
+      this.allCollections = news;
+    });
+  }
 
-  async ngOnInit() {
-    this.allCollections = await this.fireBaseService.fetchCollections();
+  async handleDeleteBtn(id: string) {
+    if (id) {
+      await this.fireBaseService.deleteEntry(id);
+    }
+  }
+
+  ngOnInit() {
+    this.fireBaseService.fetchCollections();
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }

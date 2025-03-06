@@ -1,11 +1,11 @@
 import { z } from 'zod';
 
-// Update the Zod schema to match Firebase data structure
 const NewsSchema = z.object({
-  title: z.string(), // Note: keeping 'tittle' as it matches your Firebase data
+  id: z.string().optional(),
+  title: z.string(),
   description: z.string(),
   content: z.string(),
-  date: z.string().optional(), // Changed to string since Firebase likely stores dates as strings
+  date: z.string().optional(),
 });
 
 export type News = z.infer<typeof NewsSchema>;
