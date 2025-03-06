@@ -12,13 +12,16 @@
           label="Title"
           labelPlacement="stacked"
           placeholder="Enter title"
+          [(ngModel)]="title"
         ></ion-input
       ></ion-row>
       <ion-row
         ><ion-input
+          type="date"
           label="Date"
           labelPlacement="stacked"
           placeholder="Enter date"
+          [(ngModel)]="date"
         ></ion-input
       ></ion-row>
       <ion-row
@@ -26,9 +29,22 @@
           label="Description"
           labelPlacement="stacked"
           placeholder="Enter Description"
+          [(ngModel)]="description"
         ></ion-input
       ></ion-row>
+      <ion-row
+        ><ion-textarea
+          autoGrow
+          type="text"
+          label="Content"
+          labelPlacement="stacked"
+          placeholder="Enter Content"
+          [(ngModel)]="content"
+        ></ion-textarea
+      ></ion-row>
     </ion-col>
-    <ion-button shape="round" expand="full">Add</ion-button>
+    <ion-button shape="round" expand="full" (click)="handleAddNewsBtn()"
+      >Add</ion-button
+    >
   </ion-grid>
 </ion-content>

@@ -19,8 +19,8 @@ import {
   IonRow,
   IonButton,
 } from '@ionic/angular/standalone';
-import { ExploreContainerComponent } from '../explore-container/explore-container.component';
 import { Subscription } from 'rxjs';
+import { Timestamp } from 'firebase/firestore';
 
 @Component({
   selector: 'app-tab1',
@@ -57,6 +57,10 @@ export class Tab1Page implements OnInit, OnDestroy {
     if (id) {
       await this.fireBaseService.deleteEntry(id);
     }
+  }
+
+  formatDate(date: Timestamp): string {
+    return new Date(date.toDate()).toLocaleDateString();
   }
 
   ngOnInit() {
